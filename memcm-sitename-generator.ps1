@@ -5,7 +5,7 @@
 # Get the domain information
 $DomainInfo = ([System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain()).Name
 
-# Split the domain name
+# Split the domain name 
 $SplitDomain = $DomainInfo.Split('.')
 
 # Generate the acronym

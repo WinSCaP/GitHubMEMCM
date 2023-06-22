@@ -1,0 +1,6 @@
+{
+    "installworkdir": "C:\\MEMCM-Temp-Workdir",
+    "servers": ["DB01", "MEMCM01", "DP01", "DP02"],
+    "isoUrl": "http://datastore.contoso.com/iso/windows_server_2022.iso",
+    "wgetUrl": "http://datastore.contoso.com/tools/wget.exe"
+}

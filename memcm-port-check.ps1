@@ -1,7 +1,7 @@
 # Define server names
 $PrimarySiteServer = "MEMCM01"
 $AdditionalMEMCMServers = @("MEMCM02", "MEMCM03")
-$DatabaseServer = "DB01"
+$DatabaseServer = "DB01" 
 $Client = "Client01"
 
 # Define port bundles to check

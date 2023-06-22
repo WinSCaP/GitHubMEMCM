@@ -11,7 +11,7 @@ Source: All MEMCM Systems
 Target: All MEMCM Systems 
 Ports: 80, 443 
 Protocol: TCP 
-Description: HTTP/HTTPS communication for site system roles
+Description: HTTP/HTTPS communication for site system roles 
 
 Source: All MEMCM Systems 
 Target: All MEMCM Systems 
