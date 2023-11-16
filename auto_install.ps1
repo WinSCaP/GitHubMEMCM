@@ -12,14 +12,14 @@ $Win2022Iso          = $BaseDir + 'ISO/SW_DVD9_Win_Server_STD_CORE_2022_2108.24_
 $ADKDir              = $BaseDir + 'ADK'
 
 
-# Statics
+# Site configuration
 $SCCM_DBServer       = 'DB01'
 $SCCM_PrimarySite    = 'CM01'
 $SCCM_Distribution1  = 'CM02'
 $SCCM_Distribution2  = 'CM03'
 $SCCM_WSUSServer     = 'CM02'
 $SCCM_EndProt        = 'CM03'
-$SCCM_InstallDrive   = 'D:'
+$SCCM_InstallDrive   = 'D'
 $WgetCutDirs         = 1
 # ToDo
 $SCCM_CA             = ''
@@ -204,3 +204,26 @@ WaitForProcessEnd -processName adksetup -msg "Installing PreInstallation Environ
 WaitForProcessEnd -processName msiexec -msg "Installing SQL Native Client and Forcing Restart"
 
 Invoke-Command -ComputerName $SCCM_WSus -FilePath C:\SCCM_AUTOINSTALL\auto_install_wsus.ps1 -ContentDirectory "D:\wsusContent"
+
+.\no_sms_on_drive.ps1 -ServerList $SCCM_PrimarySite,$SCCM_Distribution1,$SCCM_Distribution2 -ExcludeDriveLetter $SCCM_InstallDrive
+
+# Get the domain information
+$DomainInfo = ([System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain()).Name
+
+# Split the domain name 
+$SplitDomain = $DomainInfo.Split('.')
+
+# Generate the acronym
+$Acronym = $SplitDomain[0].Substring(0,1).ToUpper() + $SplitDomain[1].Substring(0,1).ToUpper() + 'P'
+
+.\memcm_check_system_container.ps1
+
+
+.\memcm_create_unattend_ini.ps1 -ProductID BXH69-M62YX-QQD6R-3GPWX-8WMFY -SDKServer CM01 -SqlServerName DB01 -ManagementPoint CM01 -DistributionPoint CM02
+
+E:\SMSSETUP\BIN\X64\setup.exe /SCRIPT C:\SCCM_AutoInstall\MEMCM_Unattended.ini
+
+# watch the install log for errors
+#Get-Content -Path C:\ConfigMgrSetup.log -Wait
+
+
